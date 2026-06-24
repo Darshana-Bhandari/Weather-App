@@ -3,7 +3,6 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
-const weatherIcon = document.querySelector(".weather");
 
 async function checkWeather(city) {
     try {
@@ -14,9 +13,9 @@ async function checkWeather(city) {
         }
 
         const data = await response.json();
-        console.log(data);   // Open console (F12) to see full data
+        console.log(data);   // ← Open browser console (F12) to see data
 
-        // Update City Name
+        // Update City
         document.querySelector(".city").innerHTML = data.name;
 
         // Update Temperature
@@ -28,13 +27,15 @@ async function checkWeather(city) {
         // Update Wind Speed
         document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 
-        // Update Weather Icon (Best & Easiest Method)
-        const iconCode = data.weather[0].icon;
-        weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        // Update Weather Icon
+        const weatherIcon = document.querySelector(".weather img");
+        if (weatherIcon) {
+            weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        }
 
     } catch (error) {
         console.error(error);
-        alert("Error: " + error.message + "\nPlease check the city name spelling.");
+        alert("Error: " + error.message + "\nPlease check city name spelling.");
     }
 }
 
